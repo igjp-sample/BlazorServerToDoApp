@@ -1,4 +1,4 @@
-name: build
+name: build and test
 
 on:
   push:
@@ -21,3 +21,7 @@ jobs:
       # Build
       - name: Build
         run: dotnet build -c:Release
+
+      # Test
+      - name: Test
+        run: dotnet test
