@@ -1,0 +1,60 @@
+::deep igc-navbar {
+    background-color: hsla(var(--igc-primary-500));
+}
+
+main {
+    margin: 32px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    margin: 0;
+    color: white;
+}
+
+.todo-list-container {
+    border-radius: 0 0 10px 10px;
+    border: solid 1px #ccc;
+    padding: 10px 30px;
+}
+
+ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+}
+
+ul li .check-box {
+    padding-top: 6px;
+}
+
+ul li .description {
+    padding-right: 12px;
+    flex: 1;
+}
+
+ul li button {
+    margin-left: 2rem;
+}
+
+ul li ::deep igc-button::part(base)::before {
+    background-color: hsla(var(--igc-warn-600));
+}
+
+.new-item-form {
+    display: flex;
+    align-items: center;
+}
+
+.new-item-form .new-item-description {
+    display: inline-block;
+    padding-right: 12px;
+    flex: 1;
+}

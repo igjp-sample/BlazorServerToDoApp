@@ -1,0 +1,90 @@
+﻿@implements IDisposable
+@inject IToDoItemRepository ToDoItemRepository
+
+<main>
+
+    <header>
+        <IgbNavbar>
+            <h1>やることリスト</h1>
+        </IgbNavbar>
+    </header>
+
+    <div class="todo-list-container">
+
+        <p class="todo-items-count">アイテム数: @ToDoItemRepository.ToDoItems.Count()</p>
+
+        <p class="todo-list">
+        <ul>
+            @foreach (var item in ToDoItemRepository.ToDoItems)
+                {
+                <li>
+                    <span class="check-box">
+                        <IgbCheckbox Checked="item.Done"
+                        CheckedChanged="((isChecked) => OnClickCheckBox(isChecked, item))" />
+                    </span>
+                    <span class="description">
+                            @item.Description
+                    </span>
+                    <span>
+                        <IgbButton class="delete-button" Variant="ButtonVariant.Contained"
+                        @onclick="@(() => OnClickDeleteButton(item))">
+                            削除
+                        </IgbButton>
+                    </span>
+                </li>
+                }
+        </ul>
+        </p>
+
+        <p class="new-item-form">
+            <span class="new-item-description">
+                <IgbInput DisplayType="InputType.Text" @bind-Value="_NewItem" />
+            </span>
+            <span>
+                <IgbButton class="add-button" Variant="ButtonVariant.Contained" @onclick="OnClickAddButton">追加
+                </IgbButton>
+            </span>
+        </p>
+
+    </div>
+</main>
+
+@code
+{
+    internal string _NewItem = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        ToDoItemRepository.Changed += ToDoItemRepository_Changed;
+        await ToDoItemRepository.RefreshAsync();
+    }
+
+    private void ToDoItemRepository_Changed(object? sender, EventArgs args)
+    {
+        this.InvokeAsync(() => this.StateHasChanged());
+    }
+
+    private async Task OnClickAddButton()
+    {
+        if (_NewItem == "") return;
+        var newItem = new ToDoItem() { Description = _NewItem };
+        await ToDoItemRepository.AddAsync(newItem);
+        _NewItem = "";
+    }
+
+    private async Task OnClickCheckBox(bool isChecked, ToDoItem item)
+    {
+        item.Done = isChecked;
+        await ToDoItemRepository.UpdateAsync(item);
+    }
+
+    private async Task OnClickDeleteButton(ToDoItem item)
+    {
+        await ToDoItemRepository.DeleteAsync(item);
+    }
+
+    public void Dispose()
+    {
+        ToDoItemRepository.Changed -= ToDoItemRepository_Changed;
+    }
+}
