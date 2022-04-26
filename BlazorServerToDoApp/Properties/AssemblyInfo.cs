@@ -1,0 +1,1 @@
+[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("BlazorServerToDoApp.Test")]
