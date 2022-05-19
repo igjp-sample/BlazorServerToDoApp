@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+
+  app:
+    container_name: blazorserver.todo.app
+    image: mcr.microsoft.com/dotnet/sdk:6.0.202-focal
+    command: bash -c "dotnet dev-certs https && tail -f /dev/null"
+    tty: true
+    volumes:
+      - .:/root/BlazorServerToDoApp
+      - ~/.nuget/packages:/root/.nuget/packages
+    environment:
+      - ConnectionStrings__ToDoDbContext=Server=blazorserver.todo.db,1433;Database=ToDoList;User=sa;Password=Passw0rd;TrustServerCertificate=True;
+
+  mssql:
+    container_name: blazorserver.todo.db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Passw0rd
+    ports:
+      - "1433:1433"
