@@ -1,0 +1,1 @@
+# Blazor Server ToDo App [![build and test](https://github.com/jsakamotoIGJP/BlazorServerToDoApp/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/jsakamotoIGJP/BlazorServerToDoApp/actions/workflows/build-and-test.yml)
